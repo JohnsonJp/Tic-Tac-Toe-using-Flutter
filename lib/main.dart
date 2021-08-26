@@ -24,21 +24,114 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool oTurn = true;
   List<String> xoelements = ['', '', '', '', '', '', '', '', ''];
-  int oScore = 0;
-  int xScore = 0;
-  int filledBoxes = 0;
+  int boxes = 0;
 
   void _tapped(int index) {
     setState(() {
       if (oTurn && xoelements[index] == '') {
         xoelements[index] = 'O';
-        filledBoxes++;
+        boxes++;
       } else if (!oTurn && xoelements[index] == '') {
         xoelements[index] = 'X';
-        filledBoxes++;
+        boxes++;
       }
+      
+      oTurn = !oTurn;
+      _checkWinner();
+    });
+
+  }
+
+  void _checkWinner() {
+
+    // Checking rows
+    if (xoelements[0] == xoelements[1] &&
+      xoelements[0] == xoelements[2] &&
+      xoelements[0] != '') {
+    _showWinDialog(xoelements[0]);
+    }else if (xoelements[3] == xoelements[4] &&
+      xoelements[3] == xoelements[5] &&
+      xoelements[3] != '') {
+    _showWinDialog(xoelements[3]);
+    }else if (xoelements[6] == xoelements[7] &&
+      xoelements[6] == xoelements[8] &&
+      xoelements[6] != '') {
+    _showWinDialog(xoelements[6]);
+    }else if(xoelements[0] == xoelements[3] &&
+      xoelements[0] == xoelements[6] &&
+      xoelements[0] != '') {
+    _showWinDialog(xoelements[0]);
+    }else if (xoelements[1] == xoelements[4] &&
+      xoelements[1] == xoelements[7] &&
+      xoelements[1] != '') {
+    _showWinDialog(xoelements[1]);
+    }else if (xoelements[2] == xoelements[5] &&
+      xoelements[2] == xoelements[8] &&
+      xoelements[2] != '') {
+    _showWinDialog(xoelements[2]);
+    }else if (xoelements[0] == xoelements[4] &&
+      xoelements[0] == xoelements[8] &&
+      xoelements[0] != '') {
+    _showWinDialog(xoelements[0]);
+    }else if (xoelements[2] == xoelements[4] &&
+      xoelements[2] == xoelements[6] &&
+      xoelements[2] != '') {
+    _showWinDialog(xoelements[2]);
+    } else if (boxes == 9) {
+    _showDrawDialog();
+  }
+ }
+
+void _showWinDialog(String winner) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("\" " + winner + " \" is Winner!!!"),
+        actions: [
+        MaterialButton(
+          child: Text("Play Again"),
+          onPressed: () {
+          _clearBoard();
+          Navigator.of(context).pop();
+          },
+        )
+        ],
+      );
       });
   }
+
+  void _showDrawDialog() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Draw"),
+        actions: [
+        MaterialButton(
+          child: Text("Play Again"),
+          onPressed: () {
+          _clearBoard();
+          Navigator.of(context).pop();
+          },
+        )
+        ],
+      );
+      });
+  }
+
+  void _clearBoard() {
+    setState(() {
+      for (int i = 0; i < 9; i++) {
+      xoelements[i] = '';
+      }
+    });
+    oTurn = true;
+    boxes = 0;
+    }
+
 
   Widget _portraitMode(){
   return Stack(
@@ -94,15 +187,6 @@ Widget _landscapeMode(){
           return GestureDetector(
             onTap: () {
               _tapped(index);
-              if(oTurn==true){
-                setState(() {
-                oTurn=false;
-              });
-              }else{
-                setState(() {
-                oTurn=true;
-              });
-              }
             },
             child: Container(
             decoration: BoxDecoration(
