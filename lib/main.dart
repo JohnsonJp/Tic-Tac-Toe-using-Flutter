@@ -28,6 +28,18 @@ class _MyHomePageState extends State<MyHomePage> {
   int xScore = 0;
   int filledBoxes = 0;
 
+  void _tapped(int index) {
+    setState(() {
+      if (oTurn && xoelements[index] == '') {
+        xoelements[index] = 'O';
+        filledBoxes++;
+      } else if (!oTurn && xoelements[index] == '') {
+        xoelements[index] = 'X';
+        filledBoxes++;
+      }
+      });
+  }
+
   Widget _portraitMode(){
   return Stack(
     fit: StackFit.expand,
@@ -43,7 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
           itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              _tapped(index);
+            },
             child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white)),
@@ -78,7 +92,18 @@ Widget _landscapeMode(){
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
           itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              _tapped(index);
+              if(oTurn==true){
+                setState(() {
+                oTurn=false;
+              });
+              }else{
+                setState(() {
+                oTurn=true;
+              });
+              }
+            },
             child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white)),
