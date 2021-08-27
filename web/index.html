@@ -30,6 +30,31 @@
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+
+       <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyBpWFajpmtNH-rmW2lZfjtmicf0pJ9syvU",
+          authDomain: "learn-hosti.firebaseapp.com",
+          projectId: "learn-hosti",
+          storageBucket: "learn-hosti.appspot.com",
+          messagingSenderId: "99691402325",
+          appId: "1:99691402325:web:492ff9ec60f10f775af0dc",
+          measurementId: "G-LZN0X2Y8TJ"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
+
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;

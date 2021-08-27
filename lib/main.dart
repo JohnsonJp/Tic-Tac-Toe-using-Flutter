@@ -24,6 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool oTurn = true;
   List<String> xoelements = ['', '', '', '', '', '', '', '', ''];
+  List<int> elem=[];
   int boxes = 0;
 
   void _tapped(int index) {
@@ -139,31 +140,83 @@ void _showWinDialog(String winner) {
     children: <Widget>[
       new Scaffold(
         backgroundColor: Colors.black87,
-      body: Center(
-        child: Container(
-          height: MediaQuery.of(context).size.height/1.5,
-          width: MediaQuery.of(context).size.width/1.5,
-          child: GridView.builder(
-          itemCount: 9,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-          itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              _tapped(index);
-            },
-            child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white)),
-            child: Center(
-              child: Text(
-              xoelements[index],
-              style: TextStyle(color: Colors.white, fontSize: 35),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              Expanded(flex:1,child: Container()),
+              Expanded(flex:1,child: Container(
+                height: MediaQuery.of(context).size.height/12,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.pink,
+                ),
+                child: MaterialButton(
+                  onPressed: (){
+                  if(elem.length>=1){
+                    setState(() {
+                    int n=elem[elem.length-1];
+                    xoelements[n]="";
+                    elem.removeLast();
+                    boxes=boxes-1;
+                  });
+                  }
+                },
+                  child: Text("Undo",style: TextStyle(color: Colors.white, fontSize: 35),
+                    ),
+                ),
+                ),
               ),
-            ),
-            ),
-          );
-          }), 
-        ),
+              Expanded(flex:1,child: Container()),
+              Expanded(flex:1,child: Container(
+                height: MediaQuery.of(context).size.height/12,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.pink,
+                ),
+                  child: MaterialButton(
+                    onPressed: (){
+                      _clearBoard();
+                    },
+                    child: Text("Clear",style: TextStyle(color: Colors.white, fontSize: 35),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(flex:1,child: Container()),
+            ],
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height/12,),
+          Container(
+            height: MediaQuery.of(context).size.height/1.5,
+            width: MediaQuery.of(context).size.width/1.5,
+            child: GridView.builder(
+            itemCount: 9,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                _tapped(index);
+                setState(() {
+                  elem.add(index);
+                });
+              },
+              child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white)),
+              child: Center(
+                child: Text(
+                xoelements[index],
+                style: TextStyle(color: Colors.white, fontSize: 35),
+                ),
+              ),
+              ),
+            );
+            }), 
+          ),
+        ],
       ),
     ),
     ],
@@ -176,31 +229,83 @@ Widget _landscapeMode(){
     children: <Widget>[
       new Scaffold(
         backgroundColor: Colors.black87,
-      body: Center(
-        child: Container(
-          height: MediaQuery.of(context).size.height/1.5,
-          width: MediaQuery.of(context).size.width/3,
-          child: GridView.builder(
-          itemCount: 9,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-          itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              _tapped(index);
-            },
-            child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white)),
-            child: Center(
-              child: Text(
-              xoelements[index],
-              style: TextStyle(color: Colors.white, fontSize: 35),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              Expanded(flex:2,child: Container()),
+              Expanded(flex:1,child: Container(
+                height: MediaQuery.of(context).size.height/12,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.pink,
+                ),
+                child: MaterialButton(
+                  onPressed: (){
+                    if(elem.length>=1){
+                    setState(() {
+                    int n=elem[elem.length-1];
+                    xoelements[n]="";
+                    elem.removeLast();
+                    boxes=boxes-1;
+                  });
+                  }
+                  },
+                  child: Text("Undo",style: TextStyle(color: Colors.white, fontSize: 35),
+                    ),
+                ),
+                ),
               ),
-            ),
-            ),
-          );
-          }), 
-        ),
+              Expanded(flex:1,child: Container()),
+              Expanded(flex:1,child: Container(
+                height: MediaQuery.of(context).size.height/12,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.pink,
+                ),
+                child: MaterialButton(
+                  onPressed: (){
+                    _clearBoard();
+                  },
+                  child: Text("Clear",style: TextStyle(color: Colors.white, fontSize: 35),
+                    ),
+                ),
+                ),
+              ),
+              Expanded(flex:2,child: Container()),
+            ],
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height/12,),
+          Container(
+            height: MediaQuery.of(context).size.height/1.5,
+            width: MediaQuery.of(context).size.width/3,
+            child: GridView.builder(
+            itemCount: 9,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                _tapped(index);
+                setState(() {
+                  elem.add(index);
+                });
+              },
+              child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white)),
+              child: Center(
+                child: Text(
+                xoelements[index],
+                style: TextStyle(color: Colors.white, fontSize: 35),
+                ),
+              ),
+              ),
+            );
+            }), 
+          ),
+        ],
       ),
     ),
     ],
